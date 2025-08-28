@@ -98,8 +98,19 @@ export class AuthService {
     return await this.generateTokens(user.id);
   }
 
-  logout(res: Response): boolean {
-    // TODO: delete token from redis
+  async logout(req: Request, res: Response): Promise<boolean> {
+    const token = req.cookies['refreshToken'] as string;
+
+    const payload = await this.jwtService
+      .verifyAsync<JwtPayload>(token, {
+        secret: this.JWT_REFRESH_SECRET,
+      })
+      .catch(() => {
+        throw new UnauthorizedException();
+      });
+
+    await this.cacheManager.del(payload.sub);
+
     res.clearCookie('refreshToken');
 
     return true;

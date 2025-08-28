@@ -20,18 +20,21 @@ export class AuthController {
   @Post('register')
   @UseInterceptors(SetRefreshTokenInterceptor)
   async register(@Body() dto: RegisterUserDto): Promise<AuthResponse> {
-    return await this.authService.register(dto);
+    return this.authService.register(dto);
   }
 
   @Post('login')
   @UseInterceptors(SetRefreshTokenInterceptor)
   async login(@Body() dto: LoginUserDto): Promise<AuthResponse> {
-    return await this.authService.login(dto);
+    return this.authService.login(dto);
   }
 
   @Post('logout')
-  logout(@Res({ passthrough: true }) res: Response): boolean {
-    return this.authService.logout(res);
+  async logout(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<boolean> {
+    return this.authService.logout(req, res);
   }
 
   @Post('refresh')
