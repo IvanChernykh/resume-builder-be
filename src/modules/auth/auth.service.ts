@@ -1,11 +1,14 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
   ConflictException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { type Cache } from 'cache-manager';
 import { Request, Response } from 'express';
 import bcrypt from 'node_modules/bcryptjs';
 import { Repository } from 'typeorm';
@@ -26,6 +29,7 @@ export class AuthService {
 
   constructor(
     @InjectRepository(UserEntity) private usersRepo: Repository<UserEntity>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
@@ -55,6 +59,8 @@ export class AuthService {
         expiresIn: this.JWT_REFRESH_TTL,
       },
     );
+
+    await this.cacheManager.set(userId, await bcrypt.hash(refreshToken, 5));
 
     return { accessToken, refreshToken };
   }
@@ -93,6 +99,7 @@ export class AuthService {
   }
 
   logout(res: Response): boolean {
+    // TODO: delete token from redis
     res.clearCookie('refreshToken');
 
     return true;
@@ -105,13 +112,17 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    let payload: JwtPayload;
-
-    try {
-      payload = await this.jwtService.verifyAsync(token, {
+    const payload = await this.jwtService
+      .verifyAsync<JwtPayload>(token, {
         secret: this.JWT_REFRESH_SECRET,
+      })
+      .catch(() => {
+        throw new UnauthorizedException();
       });
-    } catch {
+
+    const storedToken = await this.cacheManager.get<string>(payload.sub);
+
+    if (!storedToken || !(await bcrypt.compare(token, storedToken))) {
       throw new UnauthorizedException();
     }
 

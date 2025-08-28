@@ -2,7 +2,7 @@ services:
   app:
     build: .
     ports:
-      - "${APP_PORT}:${APP_PORT}"
+      - ${APP_PORT}:${APP_PORT}
     environment:
       NODE_ENV: development
     volumes:
@@ -11,6 +11,14 @@ services:
     depends_on:
       - postgres
     env_file: .env
+  redis:
+    image: redis
+    restart: always
+    command: redis-server --save 20 1 --requirepass ${REDIS_PASSWORD}
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}  
+    volumes:
+      - redis-data:/data    
   postgres:
     image: postgres:17
     restart: always
@@ -33,3 +41,4 @@ services:
 
 volumes:
   postgres-data:
+  redis-data:      
