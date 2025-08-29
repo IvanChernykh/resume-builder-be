@@ -1,7 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
+import { plainToInstance } from 'class-transformer';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { UserDto } from 'src/modules/users/dto/user.dto';
 import { UsersService } from 'src/modules/users/users.service';
 
 import { JwtPayload } from '../interfaces/JwtPayload';
@@ -26,8 +28,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       throw new UnauthorizedException();
     }
 
-    const { password, ...rest } = user;
-
-    return { ...rest };
+    return plainToInstance(UserDto, user, { excludeExtraneousValues: true });
   }
 }

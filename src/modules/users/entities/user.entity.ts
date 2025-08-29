@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { IsEmail } from 'class-validator';
 import {
   Column,
@@ -20,6 +21,7 @@ export class UserEntity {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @CreateDateColumn()
