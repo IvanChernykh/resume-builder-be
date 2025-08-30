@@ -15,8 +15,8 @@ import { Repository } from 'typeorm';
 
 import { UsersService } from './../users/users.service';
 import { LoginUserDto, RegisterUserDto } from './dto/auth.dto';
-import { AuthResponse } from './interfaces/auth.response';
-import { JwtPayload } from './interfaces/JwtPayload';
+import { AuthResponse } from './interfaces/auth-response.interface';
+import { JwtPayload } from './interfaces/Jwt-payload.interface';
 import { UserEntity } from '../users/entities/user.entity';
 
 @Injectable()

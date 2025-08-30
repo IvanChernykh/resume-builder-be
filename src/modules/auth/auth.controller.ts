@@ -11,7 +11,7 @@ import { type Request, type Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginUserDto, RegisterUserDto } from './dto/auth.dto';
 import { SetRefreshTokenInterceptor } from './interceptors/setRefreshToken.interceptor';
-import { AuthResponse } from './interfaces/auth.response';
+import { AuthResponse } from './interfaces/auth-response.interface';
 
 @Controller('auth')
 export class AuthController {

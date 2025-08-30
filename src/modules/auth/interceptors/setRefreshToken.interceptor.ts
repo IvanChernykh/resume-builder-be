@@ -10,7 +10,7 @@ import { map } from 'rxjs';
 import { isProd } from 'src/utils/nodeEnvironment';
 import { parseTTL } from 'src/utils/parseTTL';
 
-import { AuthResponse } from '../interfaces/auth.response';
+import { AuthResponse } from '../interfaces/auth-response.interface';
 
 @Injectable()
 export class SetRefreshTokenInterceptor implements NestInterceptor {
