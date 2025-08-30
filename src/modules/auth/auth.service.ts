@@ -8,9 +8,9 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import bcrypt from 'bcryptjs';
 import { type Cache } from 'cache-manager';
 import { Request, Response } from 'express';
-import bcrypt from 'node_modules/bcryptjs';
 import { Repository } from 'typeorm';
 
 import { UsersService } from './../users/users.service';
