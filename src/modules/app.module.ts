@@ -7,6 +7,7 @@ import { typeormConfig } from 'src/configs/typeorm.config';
 
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
+import { ResumeModule } from './resume/resume.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -16,6 +17,7 @@ import { UsersModule } from './users/users.module';
     CacheModule.registerAsync(cacheConfig),
     AuthModule,
     UsersModule,
+    ResumeModule,
   ],
   controllers: [AppController],
 })

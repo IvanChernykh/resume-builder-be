@@ -1,9 +1,11 @@
 import { Exclude } from 'class-transformer';
 import { IsEmail } from 'class-validator';
+import { ResumeEntity } from 'src/modules/resume/entities/resume.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -23,6 +25,9 @@ export class UserEntity {
   @Column()
   @Exclude()
   password: string;
+
+  @OneToMany(() => ResumeEntity, (resume) => resume.owner)
+  resumes: ResumeEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
