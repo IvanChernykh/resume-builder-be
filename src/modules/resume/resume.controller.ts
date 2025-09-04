@@ -39,7 +39,7 @@ export class ResumeController {
     @CurrentUser() user: UserDto,
     @Param('id') resumerId: string,
   ) {
-    return this.resumeService.findResumeById(resumerId);
+    return this.resumeService.findResumeById(resumerId, user.id);
   }
 
   // -----------------------------------------------------------------------

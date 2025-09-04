@@ -77,13 +77,21 @@ export class ResumeService {
     return await this.resumeRepo.findBy({ ownerId: userId });
   }
 
-  async findResumeById(id: string) {
-    return await this.resumeRepo.findOneBy({ id });
+  async findResumeById(id: string, ownerId: string) {
+    const resume = await this.resumeRepo.findOneBy({ id, ownerId });
+
+    if (!resume) {
+      throw new NotFoundException();
+    }
+
+    return resume;
   }
 
   async createResume() {}
 
-  async updateResume(resumeId: string) {}
+  async updateResume(resumeId: string, userId: string) {}
 
-  async deleteResume(resumeId: string) {}
+  async deleteResume(resumeId: string, userId: string) {
+    return await this.resumeRepo.delete({ id: resumeId, ownerId: userId });
+  }
 }
