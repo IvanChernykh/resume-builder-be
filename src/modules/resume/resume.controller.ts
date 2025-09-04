@@ -51,6 +51,14 @@ export class ResumeController {
     return this.resumeService.createResume(dto, user.id);
   }
 
+  @Delete(':id')
+  async deleteResume(
+    @Param('id') resumeId: string,
+    @CurrentUser() user: UserDto,
+  ) {
+    return this.resumeService.deleteResume(resumeId, user.id);
+  }
+
   // -----------------------------------------------------------------------
   // templates
   // -----------------------------------------------------------------------

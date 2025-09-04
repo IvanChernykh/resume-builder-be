@@ -82,8 +82,19 @@ export class ResumeService {
     return await this.resumeRepo.findBy({ ownerId: userId });
   }
 
-  async findResumeById(id: string, ownerId: string) {
-    const resume = await this.resumeRepo.findOneBy({ id, ownerId });
+  async findResumeById(id: string, ownerId: string): Promise<ResumeDto> {
+    const resume = await this.resumeRepo.findOne({
+      where: { id, ownerId },
+      relations: {
+        workExperience: true,
+        education: true,
+        projects: true,
+        courses: true,
+        links: true,
+        skills: true,
+        languages: true,
+      },
+    });
 
     if (!resume) {
       throw new NotFoundException();
@@ -114,6 +125,7 @@ export class ResumeService {
     const response = plainToInstance(ResumeDto, resume, {
       excludeExtraneousValues: true,
     });
+
     return response;
   }
 
