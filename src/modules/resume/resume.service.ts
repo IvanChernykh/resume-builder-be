@@ -100,13 +100,13 @@ export class ResumeService {
       ...dto,
       owner: user!,
       template: template,
-      // workExperience: [],
-      // education: [],
-      // projects: [],
-      // courses: [],
-      // links: [],
-      // skills: [],
-      // languages: [],
+      workExperience: [],
+      education: [],
+      projects: [],
+      courses: [],
+      links: [],
+      skills: [],
+      languages: [],
     });
 
     await this.resumeRepo.save(resume);
