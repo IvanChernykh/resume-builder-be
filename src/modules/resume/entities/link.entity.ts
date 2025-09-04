@@ -27,6 +27,7 @@ export class LinkEntity {
 
   @ManyToOne(() => ResumeEntity, (resume) => resume.links, {
     onDelete: 'CASCADE',
+    nullable: true,
   })
   @JoinColumn({ name: 'resumeId' })
   resume: ResumeEntity;

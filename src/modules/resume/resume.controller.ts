@@ -15,6 +15,7 @@ import {
   CreateResumeTemplateDto,
   UpdateResumeTemplateDto,
 } from './dto/resume-template.dto';
+import { CreateResumeDto } from './dto/resume.dto';
 import { ResumeService } from './resume.service';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/Jwt-auth.guard';
@@ -40,6 +41,14 @@ export class ResumeController {
     @Param('id') resumerId: string,
   ) {
     return this.resumeService.findResumeById(resumerId, user.id);
+  }
+
+  @Post()
+  async createResume(
+    @Body() dto: CreateResumeDto,
+    @CurrentUser() user: UserDto,
+  ) {
+    return this.resumeService.createResume(dto, user.id);
   }
 
   // -----------------------------------------------------------------------

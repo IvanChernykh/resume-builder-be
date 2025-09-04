@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import {
   IsOptional,
   IsString,
@@ -20,80 +20,116 @@ import { WorkExperienceDto } from './work-experience.dto';
 export class ResumeDto {
   @IsString()
   @IsUUID()
+  @Expose()
   id: string;
 
   @IsString()
   @MaxLength(60)
+  @Expose()
   resumeName: string;
 
   @IsString()
   @MaxLength(100)
+  @Expose()
   jobTitle: string;
 
   @IsString()
   @MaxLength(50)
+  @Expose()
   firstName: string;
 
   @IsString()
   @MaxLength(50)
+  @Expose()
   lastName: string;
 
   @IsString()
+  @Expose()
   email: string;
 
   @IsString()
   @Length(4, 20)
+  @Expose()
   phone: string;
 
   @IsString()
+  @Expose()
   country: string;
 
   @IsString()
+  @Expose()
   city: string;
 
   @IsString()
+  @Expose()
   summary: string;
 
   @IsString()
   @IsUrl()
   @IsOptional()
+  @Expose()
   photoUrl: string | null;
 
   @IsString()
   @IsUUID()
+  @Expose()
   ownerId: string;
+
+  @IsString()
+  @IsUUID()
+  @Expose()
+  templateId: string;
 
   @ValidateNested({ each: true })
   @Type(() => WorkExperienceDto)
+  @Expose()
   workExperience: WorkExperienceDto[];
 
   @ValidateNested({ each: true })
   @Type(() => EducationDto)
+  @Expose()
   education: EducationDto[];
 
   @ValidateNested({ each: true })
   @Type(() => ProjectDto)
+  @Expose()
   projects: ProjectDto[];
 
   @ValidateNested({ each: true })
   @Type(() => LinkDto)
+  @Expose()
   links: LinkDto[];
 
   @ValidateNested({ each: true })
   @Type(() => SkillDto)
+  @Expose()
   skills: SkillDto[];
 
   @ValidateNested({ each: true })
   @Type(() => LanguageDto)
+  @Expose()
   languages: LanguageDto[];
 
   @ValidateNested({ each: true })
   @Type(() => CourseDto)
+  @Expose()
   courses: CourseDto[];
 
   @IsString()
+  @Expose()
   createdAt: Date;
 
   @IsString()
+  @Expose()
   updatedAt: Date;
+}
+
+export class CreateResumeDto {
+  @IsString()
+  @MaxLength(60)
+  resumeName: string;
+
+  @IsString()
+  @IsUUID()
+  templateId: string;
 }

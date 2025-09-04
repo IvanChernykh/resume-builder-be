@@ -28,28 +28,28 @@ export class ResumeEntity {
   @Column()
   resumeName: string;
 
-  @Column()
+  @Column({ nullable: true })
   jobTitle: string;
 
-  @Column()
+  @Column({ nullable: true })
   firstName: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
 
-  @Column()
+  @Column({ nullable: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   phone: string;
 
-  @Column()
+  @Column({ nullable: true })
   country: string;
 
-  @Column()
+  @Column({ nullable: true })
   city: string;
 
-  @Column()
+  @Column({ nullable: true })
   summary: string;
 
   @Column({ nullable: true })
@@ -57,6 +57,9 @@ export class ResumeEntity {
 
   @Column()
   ownerId: string;
+
+  @Column()
+  templateId: string;
 
   @ManyToOne(() => ResumeTemplateEntity, (template) => template.resume)
   @JoinColumn({ name: 'templateId' })
@@ -69,7 +72,7 @@ export class ResumeEntity {
   owner: UserEntity;
 
   @OneToMany(() => WorkExperienceEnity, (workExp) => workExp.resume)
-  workExpeprience: WorkExperienceDto[];
+  workExperience: WorkExperienceDto[];
 
   @OneToMany(() => EducationEnity, (education) => education.resume)
   education: EducationEnity[];

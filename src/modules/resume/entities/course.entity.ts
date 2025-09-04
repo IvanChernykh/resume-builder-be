@@ -30,6 +30,7 @@ export class CourseEntity {
 
   @ManyToOne(() => ResumeEntity, (resume) => resume.courses, {
     onDelete: 'CASCADE',
+    nullable: true,
   })
   @JoinColumn({ name: 'resumeId' })
   resume: ResumeEntity;

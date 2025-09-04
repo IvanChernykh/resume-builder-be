@@ -27,6 +27,7 @@ export class LanguageEntity {
 
   @ManyToOne(() => ResumeEntity, (resume) => resume.languages, {
     onDelete: 'CASCADE',
+    nullable: true,
   })
   @JoinColumn({ name: 'resumeId' })
   resume: ResumeEntity;

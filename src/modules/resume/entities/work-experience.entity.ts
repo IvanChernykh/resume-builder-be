@@ -34,8 +34,9 @@ export class WorkExperienceEnity {
   @Column()
   resumeId: string;
 
-  @ManyToOne(() => ResumeEntity, (resume) => resume.workExpeprience, {
+  @ManyToOne(() => ResumeEntity, (resume) => resume.workExperience, {
     onDelete: 'CASCADE',
+    nullable: true,
   })
   @JoinColumn({ name: 'resumeId' })
   resume: ResumeEntity;

@@ -1,3 +1,5 @@
+import { join } from 'path';
+
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { isDev } from 'src/utils/nodeEnvironment';
@@ -14,5 +16,6 @@ export const typeormConfig: TypeOrmModuleAsyncOptions = {
     password: configService.getOrThrow<string>('DB_PASSWORD'),
     autoLoadEntities: true,
     synchronize: isDev(),
+    entities: [join(__dirname, '..', 'modules', '**', '*.entity.{ts,js}')],
   }),
 };
