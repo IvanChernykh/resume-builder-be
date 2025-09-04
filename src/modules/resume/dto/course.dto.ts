@@ -1,4 +1,4 @@
-import { IsInt, IsString, IsUUID, Min } from 'class-validator';
+import { IsInt, IsString, IsUUID, MaxLength, Min } from 'class-validator';
 
 export class CourseDto {
   @IsString()
@@ -6,12 +6,15 @@ export class CourseDto {
   id: string;
 
   @IsString()
+  @MaxLength(100)
   course: string;
 
   @IsString()
+  @MaxLength(100)
   institution: string;
 
   @IsString()
+  @MaxLength(100)
   startEndDate: string;
 
   @IsString()

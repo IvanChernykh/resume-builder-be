@@ -11,7 +11,7 @@ export class RegisterUserDto {
   email: string;
 
   @IsString()
-  @Length(8, 50)
+  @Length(8, 60)
   password: string;
 }
 
@@ -22,6 +22,6 @@ export class LoginUserDto {
   email: string;
 
   @IsString()
-  @Length(8, 50)
+  @Length(8, 60)
   password: string;
 }

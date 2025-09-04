@@ -53,14 +53,17 @@ export class ResumeDto {
   phone: string;
 
   @IsString()
+  @MaxLength(100)
   @Expose()
   country: string;
 
   @IsString()
+  @MaxLength(168)
   @Expose()
   city: string;
 
   @IsString()
+  @MaxLength(500)
   @Expose()
   summary: string;
 

@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  MaxLength,
   Min,
 } from 'class-validator';
 
@@ -13,6 +14,7 @@ export class SkillDto {
   id: string;
 
   @IsString()
+  @MaxLength(50)
   title: string;
 
   @IsNumber()

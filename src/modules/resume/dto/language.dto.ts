@@ -1,4 +1,4 @@
-import { IsInt, IsString, IsUUID, Min } from 'class-validator';
+import { IsInt, IsString, IsUUID, MaxLength, Min } from 'class-validator';
 
 export class LanguageDto {
   @IsString()
@@ -6,9 +6,11 @@ export class LanguageDto {
   id: string;
 
   @IsString()
+  @MaxLength(100)
   title: string;
 
   @IsString()
+  @MaxLength(50)
   level: string;
 
   @IsString()

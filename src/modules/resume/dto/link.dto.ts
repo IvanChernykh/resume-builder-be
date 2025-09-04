@@ -18,6 +18,7 @@ export class LinkDto {
 
   @IsString()
   @IsUrl()
+  @MaxLength(500)
   link: string;
 
   @IsString()
