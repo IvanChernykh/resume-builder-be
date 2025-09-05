@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ResumeService } from './resume.service';
+import { ResumeService } from './services/resume.service';
 
 describe('ResumesService', () => {
   let service: ResumeService;
