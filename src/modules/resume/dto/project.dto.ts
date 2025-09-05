@@ -1,3 +1,4 @@
+import { OmitType } from '@nestjs/mapped-types';
 import {
   IsInt,
   IsOptional,
@@ -41,3 +42,10 @@ export class ProjectDto {
   @Min(0)
   sortOrder: number;
 }
+
+export class CreateProjectDto extends OmitType(ProjectDto, [
+  'id',
+  'resumeId',
+]) {}
+
+export class UpdateProjectDto extends OmitType(ProjectDto, ['resumeId']) {}

@@ -1,3 +1,4 @@
+import { OmitType } from '@nestjs/mapped-types';
 import { IsInt, IsString, IsUUID, MaxLength, Min } from 'class-validator';
 
 export class EducationDto {
@@ -33,3 +34,10 @@ export class EducationDto {
   @Min(0)
   sortOrder: number;
 }
+
+export class CreateEducationDto extends OmitType(EducationDto, [
+  'id',
+  'resumeId',
+]) {}
+
+export class UpdateEducationDto extends OmitType(EducationDto, ['resumeId']) {}

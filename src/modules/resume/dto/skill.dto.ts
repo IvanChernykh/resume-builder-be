@@ -1,3 +1,4 @@
+import { OmitType } from '@nestjs/mapped-types';
 import {
   IsInt,
   IsNumber,
@@ -30,3 +31,7 @@ export class SkillDto {
   @Min(0)
   sortOrder: number;
 }
+
+export class CreateSkillDto extends OmitType(SkillDto, ['id', 'resumeId']) {}
+
+export class UpdateSkillDto extends OmitType(SkillDto, ['resumeId']) {}

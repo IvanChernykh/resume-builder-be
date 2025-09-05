@@ -1,3 +1,4 @@
+import { OmitType } from '@nestjs/mapped-types';
 import {
   IsInt,
   IsString,
@@ -29,3 +30,7 @@ export class LinkDto {
   @Min(0)
   sortOrder: number;
 }
+
+export class CreateLinkDto extends OmitType(LinkDto, ['id', 'resumeId']) {}
+
+export class UpdateLinkDto extends OmitType(LinkDto, ['resumeId']) {}
