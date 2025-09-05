@@ -1,10 +1,10 @@
+import { OmitType } from '@nestjs/mapped-types';
 import { Expose, Type } from 'class-transformer';
 import {
   IsOptional,
   IsString,
   IsUrl,
   IsUUID,
-  Length,
   MaxLength,
   ValidateNested,
 } from 'class-validator';
@@ -48,7 +48,7 @@ export class ResumeDto {
   email: string;
 
   @IsString()
-  @Length(4, 20)
+  @MaxLength(20)
   @Expose()
   phone: string;
 
@@ -67,11 +67,11 @@ export class ResumeDto {
   @Expose()
   summary: string;
 
+  @IsOptional()
   @IsString()
   @IsUrl()
-  @IsOptional()
   @Expose()
-  photoUrl: string | null;
+  photoUrl: string;
 
   @IsString()
   @IsUUID()
@@ -136,3 +136,18 @@ export class CreateResumeDto {
   @IsUUID()
   templateId: string;
 }
+
+export class UpdateResumeDto extends OmitType(ResumeDto, [
+  'id',
+  'ownerId',
+  'photoUrl',
+  'createdAt',
+  'updatedAt',
+  'workExperience',
+  'education',
+  'projects',
+  'links',
+  'skills',
+  'languages',
+  'courses',
+]) {}

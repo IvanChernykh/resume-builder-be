@@ -17,10 +17,10 @@ export class SkillDto {
   @MaxLength(50)
   title: string;
 
+  @IsOptional()
   @IsNumber()
   @Min(0)
-  @IsOptional()
-  level: number | null;
+  level: number;
 
   @IsString()
   @IsUUID()

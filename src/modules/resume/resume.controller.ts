@@ -15,7 +15,7 @@ import {
   CreateResumeTemplateDto,
   UpdateResumeTemplateDto,
 } from './dto/resume-template.dto';
-import { CreateResumeDto } from './dto/resume.dto';
+import { CreateResumeDto, UpdateResumeDto } from './dto/resume.dto';
 import { ResumeService } from './resume.service';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/Jwt-auth.guard';
@@ -32,7 +32,7 @@ export class ResumeController {
 
   @Get()
   async findAllUserResumes(@CurrentUser() user: UserDto) {
-    return this.resumeService.findAllResumes(user.id);
+    return this.resumeService.findAllUserResumes(user.id);
   }
 
   @Get(':id')
@@ -49,6 +49,15 @@ export class ResumeController {
     @CurrentUser() user: UserDto,
   ) {
     return this.resumeService.createResume(dto, user.id);
+  }
+
+  @Patch(':id')
+  async updateResume(
+    @Param('id') id: string,
+    @CurrentUser() user: UserDto,
+    @Body() dto: UpdateResumeDto,
+  ) {
+    return this.resumeService.updateResume(id, user.id, dto);
   }
 
   @Delete(':id')

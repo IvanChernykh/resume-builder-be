@@ -17,15 +17,15 @@ export class ProjectDto {
   @MaxLength(100)
   title: string;
 
+  @IsOptional()
   @IsString()
   @IsUrl()
-  @IsOptional()
   @MaxLength(500)
   link: string;
 
+  @IsOptional()
   @IsString()
   @IsUrl()
-  @IsOptional()
   @MaxLength(500)
   linkToRepo: string;
 

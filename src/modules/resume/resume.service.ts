@@ -11,7 +11,7 @@ import {
   CreateResumeTemplateDto,
   UpdateResumeTemplateDto,
 } from './dto/resume-template.dto';
-import { CreateResumeDto, ResumeDto } from './dto/resume.dto';
+import { CreateResumeDto, ResumeDto, UpdateResumeDto } from './dto/resume.dto';
 import { ResumeTemplateEntity } from './entities/resume-template.entity';
 import { ResumeEntity } from './entities/resume.entity';
 import { UsersService } from '../users/users.service';
@@ -78,11 +78,11 @@ export class ResumeService {
   // resumes
   // -----------------------------------------------------------------------
 
-  async findAllResumes(userId: string) {
+  async findAllUserResumes(userId: string) {
     return await this.resumeRepo.findBy({ ownerId: userId });
   }
 
-  async findResumeById(id: string, ownerId: string): Promise<ResumeDto> {
+  async findResumeById(id: string, ownerId: string): Promise<ResumeEntity> {
     const resume = await this.resumeRepo.findOne({
       where: { id, ownerId },
       relations: {
@@ -129,7 +129,13 @@ export class ResumeService {
     return response;
   }
 
-  // async updateResume(resumeId: string, userId: string) {}
+  async updateResume(resumeId: string, userId: string, dto: UpdateResumeDto) {
+    const resume = await this.findResumeById(resumeId, userId);
+
+    this.resumeRepo.merge(resume, dto);
+
+    return await this.resumeRepo.save(resume);
+  }
 
   async deleteResume(resumeId: string, userId: string) {
     return await this.resumeRepo.delete({ id: resumeId, ownerId: userId });
