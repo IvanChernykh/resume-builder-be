@@ -50,13 +50,15 @@ export class ResumeSectionsService {
       userId,
     );
 
-    await this.createEntities(this.workExpRepo, resume, dto.workExperience);
-    await this.createEntities(this.educationRepo, resume, dto.education);
-    await this.createEntities(this.projectRepo, resume, dto.projects);
-    await this.createEntities(this.linkRepo, resume, dto.links);
-    await this.createEntities(this.skillRepo, resume, dto.skills);
-    await this.createEntities(this.languageRepo, resume, dto.languages);
-    await this.createEntities(this.courseRepo, resume, dto.courses);
+    await Promise.all([
+      this.createEntities(this.workExpRepo, resume, dto.workExperience),
+      this.createEntities(this.educationRepo, resume, dto.education),
+      this.createEntities(this.projectRepo, resume, dto.projects),
+      this.createEntities(this.linkRepo, resume, dto.links),
+      this.createEntities(this.skillRepo, resume, dto.skills),
+      this.createEntities(this.languageRepo, resume, dto.languages),
+      this.createEntities(this.courseRepo, resume, dto.courses),
+    ]);
 
     return await this.resumeService.findResumeById(resume.id, userId);
   }
@@ -80,13 +82,15 @@ export class ResumeSectionsService {
       userId,
     );
 
-    await this.updateEntities(this.workExpRepo, resume.id, dto.workExperience);
-    await this.updateEntities(this.educationRepo, resume.id, dto.education);
-    await this.updateEntities(this.projectRepo, resume.id, dto.projects);
-    await this.updateEntities(this.linkRepo, resume.id, dto.links);
-    await this.updateEntities(this.skillRepo, resume.id, dto.skills);
-    await this.updateEntities(this.languageRepo, resume.id, dto.languages);
-    await this.updateEntities(this.courseRepo, resume.id, dto.courses);
+    await Promise.all([
+      this.updateEntities(this.workExpRepo, resume.id, dto.workExperience),
+      this.updateEntities(this.educationRepo, resume.id, dto.education),
+      this.updateEntities(this.projectRepo, resume.id, dto.projects),
+      this.updateEntities(this.linkRepo, resume.id, dto.links),
+      this.updateEntities(this.skillRepo, resume.id, dto.skills),
+      this.updateEntities(this.languageRepo, resume.id, dto.languages),
+      this.updateEntities(this.courseRepo, resume.id, dto.courses),
+    ]);
 
     return await this.resumeService.findResumeById(resume.id, userId);
   }
