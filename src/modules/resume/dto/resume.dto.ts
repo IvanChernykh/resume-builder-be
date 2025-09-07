@@ -1,13 +1,7 @@
-import { OmitType } from '@nestjs/mapped-types';
-import { Expose, Type } from 'class-transformer';
-import {
-  IsOptional,
-  IsString,
-  IsUrl,
-  IsUUID,
-  MaxLength,
-  ValidateNested,
-} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
+import { IsEmail, IsString, IsUUID, MaxLength } from 'class-validator';
+import { ApiProperties } from 'src/common/decorators/api-properties.decorator';
 
 import { CourseDto } from './course.dto';
 import { EducationDto } from './education.dto';
@@ -18,115 +12,94 @@ import { SkillDto } from './skill.dto';
 import { WorkExperienceDto } from './work-experience.dto';
 
 export class ResumeDto {
-  @IsString()
-  @IsUUID()
   @Expose()
+  @ApiProperty()
   id: string;
 
-  @IsString()
-  @MaxLength(60)
   @Expose()
+  @ApiProperty()
   resumeName: string;
 
-  @IsString()
-  @MaxLength(100)
   @Expose()
+  @ApiProperty()
   jobTitle: string;
 
-  @IsString()
-  @MaxLength(50)
   @Expose()
+  @ApiProperty()
   firstName: string;
 
-  @IsString()
-  @MaxLength(50)
   @Expose()
+  @ApiProperty()
   lastName: string;
 
-  @IsString()
   @Expose()
+  @ApiProperty()
   email: string;
 
-  @IsString()
-  @MaxLength(20)
   @Expose()
+  @ApiProperty()
   phone: string;
 
-  @IsString()
-  @MaxLength(100)
   @Expose()
+  @ApiProperty()
   country: string;
 
-  @IsString()
-  @MaxLength(168)
   @Expose()
+  @ApiProperty()
   city: string;
 
-  @IsString()
-  @MaxLength(500)
   @Expose()
+  @ApiProperty()
   summary: string;
 
-  @IsOptional()
-  @IsString()
-  @IsUrl()
   @Expose()
+  @ApiProperty()
   photoUrl: string;
 
-  @IsString()
-  @IsUUID()
   @Expose()
+  @ApiProperty()
   ownerId: string;
 
-  @IsString()
-  @IsUUID()
   @Expose()
+  @ApiProperty()
   templateId: string;
 
-  @ValidateNested({ each: true })
-  @Type(() => WorkExperienceDto)
   @Expose()
+  @ApiProperty({ type: [WorkExperienceDto] })
   workExperience: WorkExperienceDto[];
 
-  @ValidateNested({ each: true })
-  @Type(() => EducationDto)
   @Expose()
+  @ApiProperty({ type: [EducationDto] })
   education: EducationDto[];
 
-  @ValidateNested({ each: true })
-  @Type(() => ProjectDto)
   @Expose()
+  @ApiProperty({ type: [ProjectDto] })
   projects: ProjectDto[];
 
-  @ValidateNested({ each: true })
-  @Type(() => LinkDto)
   @Expose()
+  @ApiProperty({ type: [LinkDto] })
   links: LinkDto[];
 
-  @ValidateNested({ each: true })
-  @Type(() => SkillDto)
   @Expose()
+  @ApiProperty({ type: [SkillDto] })
   skills: SkillDto[];
 
-  @ValidateNested({ each: true })
-  @Type(() => LanguageDto)
   @Expose()
+  @ApiProperty({ type: [LanguageDto] })
   languages: LanguageDto[];
 
-  @ValidateNested({ each: true })
-  @Type(() => CourseDto)
   @Expose()
+  @ApiProperty({ type: [CourseDto] })
   courses: CourseDto[];
 
-  @IsString()
   @Expose()
   createdAt: Date;
 
-  @IsString()
   @Expose()
   updatedAt: Date;
 }
 
+@ApiProperties()
 export class CreateResumeDto {
   @IsString()
   @MaxLength(60)
@@ -137,17 +110,45 @@ export class CreateResumeDto {
   templateId: string;
 }
 
-export class UpdateResumeDto extends OmitType(ResumeDto, [
-  'id',
-  'ownerId',
-  'photoUrl',
-  'createdAt',
-  'updatedAt',
-  'workExperience',
-  'education',
-  'projects',
-  'links',
-  'skills',
-  'languages',
-  'courses',
-]) {}
+@ApiProperties()
+export class UpdateResumeDto {
+  @IsString()
+  @MaxLength(60)
+  resumeName: string;
+
+  @IsString()
+  @MaxLength(100)
+  jobTitle: string;
+
+  @IsString()
+  @MaxLength(50)
+  firstName: string;
+
+  @IsString()
+  @MaxLength(50)
+  lastName: string;
+
+  @IsEmail()
+  @MaxLength(60)
+  email: string;
+
+  @IsString()
+  @MaxLength(20)
+  phone: string;
+
+  @IsString()
+  @MaxLength(100)
+  country: string;
+
+  @IsString()
+  @MaxLength(168)
+  city: string;
+
+  @IsString()
+  @MaxLength(500)
+  summary: string;
+
+  @IsString()
+  @IsUUID()
+  templateId: string;
+}

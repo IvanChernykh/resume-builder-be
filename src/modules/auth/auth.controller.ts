@@ -6,12 +6,12 @@ import {
   Res,
   UseInterceptors,
 } from '@nestjs/common';
+import { ApiOkResponse } from '@nestjs/swagger';
 import { type Request, type Response } from 'express';
 
 import { AuthService } from './auth.service';
-import { LoginUserDto, RegisterUserDto } from './dto/auth.dto';
+import { AuthResponseDto, LoginUserDto, RegisterUserDto } from './dto/auth.dto';
 import { SetRefreshTokenInterceptor } from './interceptors/setRefreshToken.interceptor';
-import { AuthResponse } from './interfaces/auth-response.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -19,17 +19,20 @@ export class AuthController {
 
   @Post('register')
   @UseInterceptors(SetRefreshTokenInterceptor)
-  async register(@Body() dto: RegisterUserDto): Promise<AuthResponse> {
+  @ApiOkResponse({ type: AuthResponseDto })
+  async register(@Body() dto: RegisterUserDto): Promise<AuthResponseDto> {
     return this.authService.register(dto);
   }
 
   @Post('login')
   @UseInterceptors(SetRefreshTokenInterceptor)
-  async login(@Body() dto: LoginUserDto): Promise<AuthResponse> {
+  @ApiOkResponse({ type: AuthResponseDto })
+  async login(@Body() dto: LoginUserDto): Promise<AuthResponseDto> {
     return this.authService.login(dto);
   }
 
   @Post('logout')
+  @ApiOkResponse({ type: Boolean })
   async logout(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -39,6 +42,7 @@ export class AuthController {
 
   @Post('refresh')
   @UseInterceptors(SetRefreshTokenInterceptor)
+  @ApiOkResponse({ type: AuthResponseDto })
   refresh(@Req() req: Request) {
     return this.authService.refreshToken(req);
   }

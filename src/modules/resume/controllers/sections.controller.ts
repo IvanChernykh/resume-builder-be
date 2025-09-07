@@ -6,10 +6,12 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { ApiOkResponse } from '@nestjs/swagger';
 import { UserDto } from 'src/modules/users/dto/user.dto';
 
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/Jwt-auth.guard';
+import { ResumeDto } from '../dto/resume.dto';
 import {
   CreateSectionsDto,
   DeleteSectionsDto,
@@ -23,6 +25,7 @@ export class ResumeSectionsController {
   constructor(private readonly sectionsService: ResumeSectionsService) {}
 
   @Post()
+  @ApiOkResponse({ type: ResumeDto })
   async createResumeSections(
     @CurrentUser() user: UserDto,
     @Body() dto: CreateSectionsDto,
@@ -31,6 +34,7 @@ export class ResumeSectionsController {
   }
 
   @Patch()
+  @ApiOkResponse({ type: ResumeDto })
   async updateResumeSections(
     @CurrentUser() user: UserDto,
     @Body() dto: UpdateSectionsDto,

@@ -1,4 +1,4 @@
-import { OmitType } from '@nestjs/mapped-types';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsInt,
   IsString,
@@ -7,8 +7,43 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
+import { ApiProperties } from 'src/common/decorators/api-properties.decorator';
 
 export class LinkDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  title: string;
+
+  @ApiProperty()
+  link: string;
+
+  @ApiProperty()
+  resumeId: string;
+
+  @ApiProperty()
+  sortOrder: number;
+}
+
+@ApiProperties()
+export class CreateLinkDto {
+  @IsString()
+  @MaxLength(50)
+  title: string;
+
+  @IsString()
+  @IsUrl()
+  @MaxLength(500)
+  link: string;
+
+  @IsInt()
+  @Min(0)
+  sortOrder: number;
+}
+
+@ApiProperties()
+export class UpdateLinkDto {
   @IsString()
   @IsUUID()
   id: string;
@@ -22,15 +57,7 @@ export class LinkDto {
   @MaxLength(500)
   link: string;
 
-  @IsString()
-  @IsUUID()
-  resumeId: string;
-
   @IsInt()
   @Min(0)
   sortOrder: number;
 }
-
-export class CreateLinkDto extends OmitType(LinkDto, ['id', 'resumeId']) {}
-
-export class UpdateLinkDto extends OmitType(LinkDto, ['resumeId']) {}

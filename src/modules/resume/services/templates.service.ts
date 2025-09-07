@@ -62,6 +62,6 @@ export class ResumeTemplatesService {
   }
 
   async deleteTemplate(id: string) {
-    await this.resumeTemplateRepo.delete({ id });
+    return await this.resumeTemplateRepo.delete({ id });
   }
 }

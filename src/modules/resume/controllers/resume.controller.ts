@@ -8,11 +8,13 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { ApiOkResponse } from '@nestjs/swagger';
+import { DeleteResultDto } from 'src/common/dto/delete-response.dto';
 
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/Jwt-auth.guard';
 import { UserDto } from '../../users/dto/user.dto';
-import { CreateResumeDto, UpdateResumeDto } from '../dto/resume.dto';
+import { CreateResumeDto, ResumeDto, UpdateResumeDto } from '../dto/resume.dto';
 import { ResumeService } from '../services/resume.service';
 
 @Controller('resume')
@@ -21,11 +23,13 @@ export class ResumeController {
   constructor(private readonly resumeService: ResumeService) {}
 
   @Get()
+  @ApiOkResponse({ type: ResumeDto, isArray: true })
   async findAllUserResumes(@CurrentUser() user: UserDto) {
     return this.resumeService.findAllUserResumes(user.id);
   }
 
   @Get(':id')
+  @ApiOkResponse({ type: ResumeDto })
   async findUserResumeById(
     @CurrentUser() user: UserDto,
     @Param('id') resumerId: string,
@@ -34,6 +38,7 @@ export class ResumeController {
   }
 
   @Post()
+  @ApiOkResponse({ type: ResumeDto })
   async createResume(
     @Body() dto: CreateResumeDto,
     @CurrentUser() user: UserDto,
@@ -42,6 +47,7 @@ export class ResumeController {
   }
 
   @Patch(':id')
+  @ApiOkResponse({ type: ResumeDto })
   async updateResume(
     @Param('id') id: string,
     @CurrentUser() user: UserDto,
@@ -51,6 +57,7 @@ export class ResumeController {
   }
 
   @Delete(':id')
+  @ApiOkResponse({ type: DeleteResultDto })
   async deleteResume(
     @Param('id') resumeId: string,
     @CurrentUser() user: UserDto,

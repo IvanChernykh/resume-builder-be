@@ -14,8 +14,7 @@ import { Request, Response } from 'express';
 import { Repository } from 'typeorm';
 
 import { UsersService } from './../users/users.service';
-import { LoginUserDto, RegisterUserDto } from './dto/auth.dto';
-import { AuthResponse } from './interfaces/auth-response.interface';
+import { AuthResponseDto, LoginUserDto, RegisterUserDto } from './dto/auth.dto';
 import { JwtPayload } from './interfaces/Jwt-payload.interface';
 import { UserEntity } from '../users/entities/user.entity';
 
@@ -43,7 +42,7 @@ export class AuthService {
     this.JWT_REFRESH_TTL = configService.getOrThrow<string>('JWT_REFRESH_TTL');
   }
 
-  async generateTokens(userId: string): Promise<AuthResponse> {
+  async generateTokens(userId: string): Promise<AuthResponseDto> {
     const accessToken = await this.jwtService.signAsync(
       { sub: userId },
       {
@@ -65,7 +64,7 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async register(dto: RegisterUserDto): Promise<AuthResponse> {
+  async register(dto: RegisterUserDto): Promise<AuthResponseDto> {
     const isExists = await this.usersService.findByEmail(dto.email);
 
     if (isExists) {
@@ -82,7 +81,7 @@ export class AuthService {
     return await this.generateTokens(user.id);
   }
 
-  async login(dto: LoginUserDto): Promise<AuthResponse> {
+  async login(dto: LoginUserDto): Promise<AuthResponseDto> {
     const user = await this.usersService.findByEmail(dto.email);
 
     if (!user) {

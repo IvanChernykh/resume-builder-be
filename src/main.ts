@@ -1,7 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 
+import { swaggerConfig } from './configs/swagger.config';
 import { AppModule } from './modules/app.module';
 
 async function bootstrap() {
@@ -12,6 +14,14 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
+    }),
+  );
+
+  SwaggerModule.setup(
+    'api',
+    app,
+    SwaggerModule.createDocument(app, swaggerConfig, {
+      deepScanRoutes: true,
     }),
   );
 

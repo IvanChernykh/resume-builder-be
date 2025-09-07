@@ -10,13 +10,13 @@ import { map } from 'rxjs';
 import { isProd } from 'src/utils/nodeEnvironment';
 import { parseTTL } from 'src/utils/parseTTL';
 
-import { AuthResponse } from '../interfaces/auth-response.interface';
+import { AuthResponseDto } from '../dto/auth.dto';
 
 @Injectable()
 export class SetRefreshTokenInterceptor implements NestInterceptor {
   constructor(private readonly configService: ConfigService) {}
 
-  intercept(context: ExecutionContext, next: CallHandler<AuthResponse>) {
+  intercept(context: ExecutionContext, next: CallHandler<AuthResponseDto>) {
     const res = context.switchToHttp().getResponse<Response>();
 
     return next.handle().pipe(

@@ -1,4 +1,5 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
+import { ApiOkResponse } from '@nestjs/swagger';
 
 import { UserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
@@ -11,6 +12,7 @@ export class UsersController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ type: UserDto })
   getCurrentUser(@CurrentUser() user: UserDto) {
     return user;
   }

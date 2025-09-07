@@ -1,5 +1,7 @@
 import { Expose } from 'class-transformer';
+import { ApiProperties } from 'src/common/decorators/api-properties.decorator';
 
+@ApiProperties()
 export class UserDto {
   @Expose()
   id: string;
