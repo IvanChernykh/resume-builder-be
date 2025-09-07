@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { cacheConfig } from 'src/configs/cache.config';
 import { typeormConfig } from 'src/configs/typeorm.config';
 
-import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { ResumeModule } from './resume/resume.module';
 import { UsersModule } from './users/users.module';
@@ -19,6 +18,5 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     ResumeModule,
   ],
-  controllers: [AppController],
 })
 export class AppModule {}

@@ -4,13 +4,16 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { type Request, type Response } from 'express';
+import { API_BEARER_AUTH_KEY } from 'src/common/constants/swagger.constants';
 
 import { AuthService } from './auth.service';
 import { AuthResponseDto, LoginUserDto, RegisterUserDto } from './dto/auth.dto';
+import { JwtAuthGuard } from './guards/Jwt-auth.guard';
 import { SetRefreshTokenInterceptor } from './interceptors/setRefreshToken.interceptor';
 
 @Controller('auth')
@@ -32,6 +35,8 @@ export class AuthController {
   }
 
   @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth(API_BEARER_AUTH_KEY)
   @ApiOkResponse({ type: Boolean })
   async logout(
     @Req() req: Request,

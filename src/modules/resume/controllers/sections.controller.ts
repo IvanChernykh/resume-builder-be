@@ -6,7 +6,8 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
+import { API_BEARER_AUTH_KEY } from 'src/common/constants/swagger.constants';
 import { UserDto } from 'src/modules/users/dto/user.dto';
 
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
@@ -21,6 +22,7 @@ import { ResumeSectionsService } from '../services/sections.service';
 
 @Controller('resume/sections')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth(API_BEARER_AUTH_KEY)
 export class ResumeSectionsController {
   constructor(private readonly sectionsService: ResumeSectionsService) {}
 

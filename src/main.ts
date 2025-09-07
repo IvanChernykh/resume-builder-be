@@ -1,6 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 
 import { swaggerConfig } from './configs/swagger.config';
@@ -20,9 +20,8 @@ async function bootstrap() {
   SwaggerModule.setup(
     'api',
     app,
-    SwaggerModule.createDocument(app, swaggerConfig, {
-      deepScanRoutes: true,
-    }),
+    SwaggerModule.createDocument(app, swaggerConfig),
+    { swaggerOptions: { persistAuthorization: true } },
   );
 
   await app.listen(process.env.PORT ?? 3000);

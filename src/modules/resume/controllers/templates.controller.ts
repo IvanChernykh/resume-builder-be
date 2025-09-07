@@ -10,7 +10,8 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
+import { API_BEARER_AUTH_KEY } from 'src/common/constants/swagger.constants';
 import { DeleteResultDto } from 'src/common/dto/delete-response.dto';
 
 import { JwtAuthGuard } from '../../auth/guards/Jwt-auth.guard';
@@ -23,6 +24,7 @@ import { ResumeTemplatesService } from '../services/templates.service';
 
 @Controller('resume/templates')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth(API_BEARER_AUTH_KEY)
 export class ResumeTemplatesController {
   constructor(private readonly templatesService: ResumeTemplatesService) {}
 
