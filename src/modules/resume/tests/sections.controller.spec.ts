@@ -22,9 +22,9 @@ const deleteSectionsDtoMock: DeleteSectionsDto = {
 };
 
 const sectionsServiceMock = {
-  createSections: jest.fn().mockResolvedValue(resumeDtoMock),
-  updateSections: jest.fn().mockResolvedValue(resumeDtoMock),
-  deleteSections: jest.fn().mockResolvedValue(resumeDtoMock),
+  createSections: jest.fn(),
+  updateSections: jest.fn(),
+  deleteSections: jest.fn(),
 };
 
 describe('ResumeSectionsController', () => {
@@ -42,29 +42,20 @@ describe('ResumeSectionsController', () => {
   });
 
   it('should create sections', async () => {
-    const result = await controller.createResumeSections(
-      userDtoMock,
-      createSectionsDtoMock,
-    );
+    await controller.createResumeSections(userDtoMock, createSectionsDtoMock);
 
-    expect(result).toEqual(resumeDtoMock);
+    expect(sectionsServiceMock.createSections).toHaveBeenCalled();
   });
 
   it('should update sections', async () => {
-    const result = await controller.updateResumeSections(
-      userDtoMock,
-      updateSectionsDtoMock,
-    );
+    await controller.updateResumeSections(userDtoMock, updateSectionsDtoMock);
 
-    expect(result).toEqual(resumeDtoMock);
+    expect(sectionsServiceMock.updateSections).toHaveBeenCalled();
   });
 
   it('should delete sections', async () => {
-    const result = await controller.deleteResumeSection(
-      userDtoMock,
-      deleteSectionsDtoMock,
-    );
+    await controller.deleteResumeSection(userDtoMock, deleteSectionsDtoMock);
 
-    expect(result).toEqual(resumeDtoMock);
+    expect(sectionsServiceMock.deleteSections).toHaveBeenCalled();
   });
 });

@@ -50,7 +50,7 @@ export class ResumeTemplatesService {
 
     const template = this.resumeTemplateRepo.create({ templateName });
 
-    return this.resumeTemplateRepo.save(template);
+    return await this.resumeTemplateRepo.save(template);
   }
 
   async updateTemplate(id: string, dto: UpdateResumeTemplateDto) {

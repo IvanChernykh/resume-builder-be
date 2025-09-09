@@ -42,7 +42,7 @@ export class AuthService {
     this.JWT_REFRESH_TTL = configService.getOrThrow<string>('JWT_REFRESH_TTL');
   }
 
-  async generateTokens(userId: string): Promise<AuthResponseDto> {
+  private async generateTokens(userId: string): Promise<AuthResponseDto> {
     const accessToken = await this.jwtService.signAsync(
       { sub: userId },
       {

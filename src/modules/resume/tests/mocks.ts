@@ -1,13 +1,11 @@
-import { DeleteResultDto } from 'src/common/dto/delete-response.dto';
 import { UserDto } from 'src/modules/users/dto/user.dto';
 
 import { ResumeDto } from '../dto/resume.dto';
 
-export const deleteResultMock: DeleteResultDto = {
-  affected: 1,
-};
-
-export const userDtoMock = { id: crypto.randomUUID() } as UserDto;
+export const userDtoMock = {
+  id: crypto.randomUUID(),
+  username: 'tedmosby',
+} as UserDto;
 
 export const resumeDtoMock: ResumeDto = {
   id: crypto.randomUUID(),

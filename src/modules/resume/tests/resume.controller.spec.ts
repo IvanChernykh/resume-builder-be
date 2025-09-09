@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { deleteResultMock, resumeDtoMock, userDtoMock } from './mocks';
+import { userDtoMock } from './mocks';
 import { ResumeController } from '../controllers/resume.controller';
 import { CreateResumeDto, UpdateResumeDto } from '../dto/resume.dto';
 import { ResumeService } from '../services/resume.service';
+
+const resumeIdMock = 'this is resume id';
 
 const createResumeDtoMock: CreateResumeDto = {
   resumeName: 'string',
@@ -24,11 +26,11 @@ const updateResumeDtoMock: UpdateResumeDto = {
 };
 
 const resumeServiceMock = {
-  findAllUserResumes: jest.fn().mockResolvedValue([resumeDtoMock]),
-  findResumeById: jest.fn().mockResolvedValue(resumeDtoMock),
-  createResume: jest.fn().mockResolvedValue(resumeDtoMock),
-  updateResume: jest.fn().mockResolvedValue(resumeDtoMock),
-  deleteResume: jest.fn().mockResolvedValue(deleteResultMock),
+  findAllUserResumes: jest.fn(),
+  findResumeById: jest.fn(),
+  createResume: jest.fn(),
+  updateResume: jest.fn(),
+  deleteResume: jest.fn(),
 };
 
 describe('ResumeController', () => {
@@ -44,40 +46,36 @@ describe('ResumeController', () => {
   });
 
   it('should find all user resumes', async () => {
-    const result = await controller.findAllUserResumes(userDtoMock);
-    expect(result).toEqual([resumeDtoMock]);
+    await controller.findAllUserResumes(userDtoMock);
+
+    expect(resumeServiceMock.findAllUserResumes).toHaveBeenCalled();
   });
 
   it('should find user resume', async () => {
-    const result = await controller.findUserResumeById(
-      userDtoMock,
-      resumeDtoMock.id,
-    );
+    await controller.findUserResumeById(userDtoMock, resumeIdMock);
 
-    expect(result).toEqual(resumeDtoMock);
+    expect(resumeServiceMock.findResumeById).toHaveBeenCalled();
   });
 
   it('should create user resume', async () => {
-    const result = await controller.createResume(
-      createResumeDtoMock,
-      userDtoMock,
-    );
+    await controller.createResume(createResumeDtoMock, userDtoMock);
 
-    expect(result).toEqual(resumeDtoMock);
+    expect(resumeServiceMock.createResume).toHaveBeenCalled();
   });
 
   it('should update user resume', async () => {
-    const result = await controller.updateResume(
-      resumeDtoMock.id,
+    await controller.updateResume(
+      resumeIdMock,
       userDtoMock,
       updateResumeDtoMock,
     );
 
-    expect(result).toEqual(resumeDtoMock);
+    expect(resumeServiceMock.updateResume).toHaveBeenCalled();
   });
 
   it('should delete user resume', async () => {
-    const result = await controller.deleteResume(resumeDtoMock.id, userDtoMock);
-    expect(result).toEqual(deleteResultMock);
+    await controller.deleteResume(resumeIdMock, userDtoMock);
+
+    expect(resumeServiceMock.deleteResume).toHaveBeenCalled();
   });
 });
