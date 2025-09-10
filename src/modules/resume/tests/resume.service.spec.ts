@@ -1,6 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { S3Service } from 'src/modules/s3/s3.service';
 import { UserEntity } from 'src/modules/users/entities/user.entity';
 
 import { userDtoMock } from './mocks';
@@ -103,6 +104,11 @@ const templatesServiceMock = {
   findTemplateById: jest.fn(),
 };
 
+const s3ServiceMock = {
+  upload: jest.fn(),
+  delete: jest.fn(),
+};
+
 describe('ResumeService', () => {
   let service: ResumeService;
 
@@ -122,6 +128,7 @@ describe('ResumeService', () => {
           provide: ResumeTemplatesService,
           useValue: templatesServiceMock,
         },
+        { provide: S3Service, useValue: s3ServiceMock },
       ],
     }).compile();
 

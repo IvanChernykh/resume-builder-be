@@ -7,6 +7,7 @@ import { typeormConfig } from 'src/configs/typeorm.config';
 
 import { AuthModule } from './auth/auth.module';
 import { ResumeModule } from './resume/resume.module';
+import { S3Module } from './s3/s3.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -17,6 +18,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     UsersModule,
     ResumeModule,
+    S3Module,
   ],
 })
 export class AppModule {}

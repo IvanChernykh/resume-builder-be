@@ -6,8 +6,11 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { API_BEARER_AUTH_KEY } from 'src/common/constants/swagger.constants';
 import { DeleteResultDto } from 'src/common/dto/delete-response.dto';
@@ -48,14 +51,33 @@ export class ResumeController {
     return this.resumeService.createResume(dto, user.id);
   }
 
+  @Post(':id/photo')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadPhoto(
+    @UploadedFile() file: Express.Multer.File,
+    @CurrentUser() user: UserDto,
+    @Param('id') resumeId: string,
+  ) {
+    return this.resumeService.uploadPhoto(resumeId, user.id, file);
+  }
+
   @Patch(':id')
   @ApiOkResponse({ type: ResumeDto })
   async updateResume(
-    @Param('id') id: string,
+    @Param('id') resumeId: string,
     @CurrentUser() user: UserDto,
     @Body() dto: UpdateResumeDto,
   ) {
-    return this.resumeService.updateResume(id, user.id, dto);
+    return this.resumeService.updateResume(resumeId, user.id, dto);
+  }
+
+  @Delete(':id/photo')
+  @ApiOkResponse({ type: Boolean })
+  async deletePhoto(
+    @Param('id') resumeId: string,
+    @CurrentUser() user: UserDto,
+  ) {
+    return this.resumeService.deletePhoto(resumeId, user.id);
   }
 
   @Delete(':id')
