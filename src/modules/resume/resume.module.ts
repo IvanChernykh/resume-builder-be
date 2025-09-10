@@ -17,6 +17,7 @@ import { ResumeTemplatesController } from './controllers/templates.controller';
 import { SkillEntity } from './entities/skill.entity';
 import { ResumeSectionsService } from './services/sections.service';
 import { ResumeTemplatesService } from './services/templates.service';
+import { S3Service } from '../s3/s3.service';
 
 @Module({
   imports: [
@@ -38,6 +39,11 @@ import { ResumeTemplatesService } from './services/templates.service';
     ResumeSectionsController,
     ResumeController,
   ],
-  providers: [ResumeService, ResumeTemplatesService, ResumeSectionsService],
+  providers: [
+    ResumeService,
+    ResumeTemplatesService,
+    ResumeSectionsService,
+    S3Service,
+  ],
 })
 export class ResumeModule {}
