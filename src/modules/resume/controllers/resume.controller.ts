@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -52,7 +53,27 @@ export class ResumeController {
   }
 
   @Post(':id/photo')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: 1024 * 1024 * 10 },
+      fileFilter: (_, file, callback) => {
+        if (
+          file.mimetype === 'image/jpeg' ||
+          file.mimetype === 'image/png' ||
+          file.mimetype === 'image/webp'
+        ) {
+          callback(null, true);
+        } else {
+          callback(
+            new BadRequestException(
+              'Only .jpg, .png, .webp files are allowed!',
+            ),
+            false,
+          );
+        }
+      },
+    }),
+  )
   async uploadPhoto(
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: UserDto,
