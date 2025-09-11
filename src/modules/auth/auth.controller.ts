@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   Req,
   Res,
@@ -10,15 +11,33 @@ import {
 import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { type Request, type Response } from 'express';
 import { API_BEARER_AUTH_KEY } from 'src/common/constants/swagger.constants';
+import { generateCsrfToken } from 'src/configs/csrf.config';
 
 import { AuthService } from './auth.service';
-import { AuthResponseDto, LoginUserDto, RegisterUserDto } from './dto/auth.dto';
+import {
+  AuthResponseDto,
+  CsrfResponseDto,
+  LoginUserDto,
+  RegisterUserDto,
+} from './dto/auth.dto';
+import { CsrfGuard } from './guards/csrf.guard';
 import { JwtAuthGuard } from './guards/Jwt-auth.guard';
 import { SetRefreshTokenInterceptor } from './interceptors/setRefreshToken.interceptor';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Get('csrf')
+  @ApiOkResponse({ type: CsrfResponseDto })
+  getCSRFToken(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): CsrfResponseDto {
+    const csrfToken = generateCsrfToken(req, res);
+
+    return { csrfToken };
+  }
 
   @Post('register')
   @UseInterceptors(SetRefreshTokenInterceptor)
@@ -46,6 +65,7 @@ export class AuthController {
   }
 
   @Post('refresh')
+  @UseGuards(CsrfGuard)
   @UseInterceptors(SetRefreshTokenInterceptor)
   @ApiOkResponse({ type: AuthResponseDto })
   refresh(@Req() req: Request) {

@@ -26,7 +26,7 @@ export class SetRefreshTokenInterceptor implements NestInterceptor {
         res.cookie('refreshToken', refreshToken, {
           httpOnly: true,
           secure: isProd(),
-          sameSite: 'lax',
+          sameSite: 'none',
           maxAge: parseTTL(
             this.configService.getOrThrow<string>('JWT_REFRESH_TTL'),
           ),

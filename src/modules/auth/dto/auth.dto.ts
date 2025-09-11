@@ -37,3 +37,8 @@ export class AuthResponseDto {
   @ApiProperty()
   refreshToken: string;
 }
+
+export class CsrfResponseDto {
+  @ApiProperty()
+  csrfToken: string;
+}
